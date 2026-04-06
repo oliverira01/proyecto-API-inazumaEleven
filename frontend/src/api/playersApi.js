@@ -9,3 +9,7 @@ export const getPlayers = (filters = {}) => {
 export const getPlayerById = (id) => {
   return axios.get(`${BASE_URL}/players/${id}`);
 };
+
+export const getPlayerStats = (entryId) => {
+  return axios.get(`${BASE_URL}/players/${entryId}/stats`);
+};

@@ -1,4 +1,4 @@
-import { findAllPlayers, findPlayerById } from '../repositories/playersRepository.js';
+import { findAllPlayers, findPlayerById, findPlayerStats } from '../repositories/playersRepository.js';
 
 export const getPlayers = async (req, res) => {
   try {
@@ -21,5 +21,18 @@ export const getPlayerById = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error al obtener el jugador' });
+  }
+};
+
+export const getPlayerStats = async (req, res) => {
+  try {
+    const stats = await findPlayerStats(req.params.entryId);
+    if (!stats.length) {
+      return res.status(404).json({ error: 'Stats no encontradas' });
+    }
+    res.json(stats);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al obtener stats' });
   }
 };

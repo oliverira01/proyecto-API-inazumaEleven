@@ -36,3 +36,13 @@ export const findPlayerById = async (id) => {
   `, [id]);
   return rows;
 };
+
+export const findPlayerStats = async (entryId) => {
+  const [rows] = await pool.query(`
+    SELECT level, pe, pt, tiro, fisico, control, defensa, rapidez, aguante, valor, libertad
+    FROM player_stats
+    WHERE entry_id = ?
+    ORDER BY level DESC
+  `, [entryId]);
+  return rows;
+};

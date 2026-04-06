@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { getPlayers } from '../api/playersApi';
 import PlayerCard from '../components/PlayerCard';
+import PlayerModal from '../components/PlayerModal';
 
-function HomePage() {
-  const [players, setPlayers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(null);
-  const [game, setGame]       = useState('IE1');
-  const [search, setSearch]   = useState('');
+function PlayersPage() {
+  const [players, setPlayers]       = useState([]);
+  const [loading, setLoading]       = useState(true);
+  const [error, setError]           = useState(null);
+  const [game, setGame]             = useState('IE1');
+  const [search, setSearch]         = useState('');
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   useEffect(() => {
     fetchPlayers();
@@ -18,7 +20,6 @@ function HomePage() {
       setLoading(true);
       setError(null);
       const { data } = await getPlayers({ game, name: search });
-      console.log('Respuesta del backend:', data);
       setPlayers(Array.isArray(data) ? data : []);
     } catch (err) {
       setError('Error al cargar los jugadores');
@@ -59,7 +60,6 @@ function HomePage() {
 
       {loading && <p className="status-msg">Cargando jugadores...</p>}
       {error   && <p className="status-msg error">{error}</p>}
-
       {!loading && !error && players.length === 0 && (
         <p className="status-msg">No se encontraron jugadores.</p>
       )}
@@ -67,12 +67,24 @@ function HomePage() {
       {!loading && !error && (
         <div className="players-grid">
           {players.map(player => (
-            <PlayerCard key={player.entry_id} player={player} />
+            <PlayerCard
+              key={player.entry_id}
+              player={player}
+              onClick={() => setSelectedPlayer(player)}
+            />
           ))}
         </div>
+      )}
+
+      {selectedPlayer && (
+        <PlayerModal
+          player={selectedPlayer}
+          game={game}
+          onClose={() => setSelectedPlayer(null)}
+        />
       )}
     </div>
   );
 }
 
-export default HomePage;
+export default PlayersPage;

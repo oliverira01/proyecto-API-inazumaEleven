@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary:    #0f0f0f;
+  --bg-secondary:  #1a1a1a;
+  --bg-card:       #222222;
+  --border:        #333333;
+  --text-primary:  #ffffff;
+  --text-secondary:#a0a0a0;
+  --accent-fire:   #ff4d1c;
+  --accent-wind:   #1cb8ff;
+  --accent-earth:  #a855f7;
+  --accent-wood:   #22c55e;
+  --accent-gold:   #f59e0b;
+  --accent-mountain: #a16207;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}

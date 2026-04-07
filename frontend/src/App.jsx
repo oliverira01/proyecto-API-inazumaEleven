@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import LandingPage from './pages/LandingPage';
 import PlayersPage from './pages/PlayersPage';
+import TeamsPage from "./pages/TeamsPage";
 import './App.css';
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/"                  element={<LandingPage />} />
         <Route path="/jugadores"         element={<PlayersPage />} />
-        <Route path="/equipos"           element={<div className="status-msg">Próximamente</div>} />
+        <Route path="/equipos"           element={<TeamsPage />} />
         <Route path="/tecnicas"          element={<div className="status-msg">Próximamente</div>} />
         <Route path="/items"             element={<div className="status-msg">Próximamente</div>} />
         <Route path="/cadenas"           element={<div className="status-msg">Próximamente</div>} />

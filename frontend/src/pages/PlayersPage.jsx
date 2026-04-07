@@ -4,11 +4,11 @@ import PlayerCard from '../components/PlayerCard';
 import PlayerModal from '../components/PlayerModal';
 
 function PlayersPage() {
-  const [players, setPlayers]       = useState([]);
-  const [loading, setLoading]       = useState(true);
-  const [error, setError]           = useState(null);
-  const [game, setGame]             = useState('IE1');
-  const [search, setSearch]         = useState('');
+  const [players, setPlayers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [game, setGame] = useState('IE1');
+  const [search, setSearch] = useState('');
   const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   useEffect(() => {

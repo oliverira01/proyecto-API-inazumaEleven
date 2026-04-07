@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 
 const SECTIONS = [
-  { to: '/jugadores',      icon: '⚽', label: 'Jugadores',      desc: 'Stats, técnicas y builds competitivas' },
-  { to: '/equipos',        icon: '🛡️', label: 'Equipos',        desc: 'Formaciones y alineaciones' },
-  { to: '/tecnicas',       icon: '⚡', label: 'Técnicas',        desc: 'Supertécnicas  potencia' },
-  { to: '/items',          icon: '🎒', label: 'Items',           desc: 'Equipación, consumibles y cuadernos' },
-  { to: '/cadenas',        icon: '🔗', label: 'Cadenas',         desc: 'Rutas, drops y recompensas' },
-  { to: '/entrenamientos', icon: '💪', label: 'Entrenamientos',  desc: 'Localización y stats que mejoran' },
-  { to: '/tiendas',        icon: '🏪', label: 'Tiendas',         desc: 'Precios y catálogo por juego' },
-  { to: '/torneos',        icon: '🏆', label: 'Torneos',         desc: 'Exclusivo IE3' },
-  { to: '/minijuegos',     icon: '🎮', label: 'Minijuegos',      desc: 'Inazudle, Fútbol Frontier y más' },
+  { to: '/jugadores', icon: '⚽', label: 'Jugadores', desc: 'Stats, técnicas y builds competitivas' },
+  { to: '/equipos', icon: '🛡️', label: 'Equipos', desc: 'Formaciones y alineaciones' },
+  { to: '/tecnicas', icon: '⚡', label: 'Técnicas', desc: 'Supertécnicas' },
+  { to: '/items', icon: '🎒', label: 'Items', desc: 'Equipación, consumibles y cuadernos' },
+  { to: '/cadenas', icon: '🔗', label: 'Cadenas', desc: 'Rutas, drops y recompensas' },
+  { to: '/entrenamientos', icon: '💪', label: 'Entrenamientos', desc: 'Localización y stats que mejoran' },
+  { to: '/tiendas', icon: '🏪', label: 'Tiendas', desc: 'Precios y catálogo por juego' },
+  { to: '/torneos', icon: '🏆', label: 'Torneos', desc: 'Exclusivo IE3' },
+  { to: '/minijuegos', icon: '🎮', label: 'Minijuegos', desc: 'Inazudle, Fútbol Frontier y más' },
 ];
 
 function LandingPage() {

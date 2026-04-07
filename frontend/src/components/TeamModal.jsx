@@ -1,154 +1,188 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import { FORMATIONS } from '../data/formations';
 
-const API_URL = "http://localhost:3001/api/teams";
+const API_URL = 'http://localhost:3001/api/teams';
 
-const TeamModal = ({ team, onClose }) => {
+function FieldPlayer({ player, onDragStart, onDrop }) {
+  return (
+    <div
+      className="field-player"
+      draggable
+      onDragStart={onDragStart}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={onDrop}
+    >
+      {player.image_url ? (
+        <img src={player.image_url} alt={player.name} />
+      ) : (
+        <div className="field-player-placeholder">⚽</div>
+      )}
+      <span className={`field-player-name badge-${player.element}`}>
+        {player.name.split(' ')[0]}
+      </span>
+    </div>
+  );
+}
 
+function FormationField({ players, formation, allPlayers, setAllPlayers }) {
+  const formationData = FORMATIONS[formation];
+
+  if (!formationData) return null;
+
+  const handleDragStart = (player) => {
+    window.draggedPlayer = player;
+  };
+
+  const handleDrop = (targetIndex) => {
+    const dragged = window.draggedPlayer;
+    if (!dragged) return;
+    const updated = [...allPlayers];
+    const fromIndex = updated.findIndex((p) => p.entry_id === dragged.entry_id);
+
+    // intercambiar
+    [updated[fromIndex], updated[targetIndex]] = [updated[targetIndex], updated[fromIndex]];
+
+    setAllPlayers(updated);
+    window.draggedPlayer = null;
+  };
+
+  return (
+    <div className="team-field">
+      {formationData.positions.map((pos, i) => {
+        const player = allPlayers[i];
+        if (!player) return null;
+
+        return (
+          <div
+            key={player.entry_id}
+            className="field-player-wrapper"
+            style={{
+              left: `${pos.x}%`,
+              top: `${pos.y}%`,
+              transition: 'all 0.3s ease',
+              position: 'absolute',
+            }}
+          >
+            <FieldPlayer
+              player={player}
+              onDragStart={() => handleDragStart(player)}
+              onDrop={() => handleDrop(i)}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function TeamModal({ team, onClose }) {
   const [players, setPlayers] = useState([]);
-  
-  const getFormationLines = () => {
-  if (!team.formation) return [4,4,2];
-
-  return team.formation
-    .split("-")
-    .map(n => parseInt(n));
-};
+  const [loading, setLoading] = useState(true);
+  const [allPlayers, setAllPlayers] = useState([]);
 
   useEffect(() => {
-
     const fetchPlayers = async () => {
-      const res = await fetch(
-        `${API_URL}/${team.id}/players?game=${team.game}`
-      );
-
-      const data = await res.json();
-      setPlayers(data);
+      try {
+        const res = await fetch(`${API_URL}/${team.id}/players?game=${team.game}`);
+        const data = await res.json();
+        setPlayers(Array.isArray(data) ? data : []);
+        setAllPlayers(Array.isArray(data) ? data : []);
+      } catch {
+        setPlayers([]);
+        setAllPlayers([]);
+      } finally {
+        setLoading(false);
+      }
     };
-
     fetchPlayers();
+
+    const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
   }, [team]);
 
-  // Limitar a los primeros 11 jugadores del equipo
-    const limitedPlayers = players.slice(0, 11);
-
-    const goalkeepers = limitedPlayers.filter(p => p.position === "POR");
-    const defenders   = limitedPlayers.filter(p => p.position === "DF");
-    const midfielders = limitedPlayers.filter(p => p.position === "MC");
-    const forwards    = limitedPlayers.filter(p => p.position === "DL");
-
-const formationLines = getFormationLines();
+  const starters = allPlayers.slice(0, 11);
+  const bench = allPlayers.slice(11, 16);
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div
-        className="modal-container"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
 
+        {/* Header */}
         <div className="modal-header">
-
-          <img
-            src={team.image_url}
-            alt={team.name}
-            className="modal-avatar"
-          />
-
+          {team.image_url ? (
+            <img src={team.image_url} alt={team.name} className="modal-avatar" />
+          ) : (
+            <div className="modal-avatar-placeholder">🛡️</div>
+          )}
           <div className="modal-header-center">
-            <div className="modal-name">{team.name}</div>
-            <div className="modal-team">{team.game}</div>
+            <div className="modal-top-row">
+              <span className="modal-game-badge">{team.game}</span>
+              {team.formation && (
+                <span className="modal-level">
+                  {FORMATIONS[team.formation]?.label ?? team.formation}
+                </span>
+              )}
+            </div>
+            <h2 className="modal-name">{team.name}</h2>
+            {team.in_match_chain && (
+              <span className="badge badge-position">Cadena de partidos</span>
+            )}
           </div>
-
-          <button className="modal-close" onClick={onClose}>
-            ✕
-          </button>
-
+          <button className="modal-close" onClick={onClose}>✕</button>
         </div>
 
         <div className="modal-body">
 
           {team.description && (
             <div className="modal-description">
-              {team.description}
+              <p>{team.description}</p>
             </div>
           )}
 
-          {team.in_match_chain && (
-            <div className="modal-competitive">
-              <div className="modal-competitive-label">
-                Match Chain
-              </div>
-              <div className="modal-competitive-text">
-                {team.in_match_chain}
-              </div>
-            </div>
+          {/* Campo con formación */}
+          <div className="modal-competitive-label">Alineación</div>
+          {loading ? (
+            <p className="status-msg">Cargando jugadores...</p>
+          ) : (
+            <FormationField
+              players={starters}
+              formation={team.formation}
+              allPlayers={allPlayers}
+              setAllPlayers={setAllPlayers}
+            />
           )}
 
-          {team.formation && (
+          {/* Banquillo */}
+          {!loading && bench.length > 0 && (
             <div>
-              <div className="modal-competitive-label">
-                Formación
+              <div className="modal-competitive-label">Banquillo</div>
+              <div className="field-row">
+                {bench.map((p, i) => (
+                  <FieldPlayer
+                    key={p.entry_id}
+                    player={p}
+                    onDragStart={() => { window.draggedPlayer = p; }}
+                    onDrop={() => {
+                      const index = 11 + i;
+                      const dragged = window.draggedPlayer;
+                      if (!dragged) return;
+                      const updated = [...allPlayers];
+                      const fromIndex = updated.findIndex(pl => pl.entry_id === dragged.entry_id);
+                      [updated[fromIndex], updated[index]] = [updated[index], updated[fromIndex]];
+                      setAllPlayers(updated);
+                      window.draggedPlayer = null;
+                    }}
+                  />
+                ))}
               </div>
-
-              <img
-                src={`/formations/${team.formation}.png`}
-                alt={team.formation}
-                style={{ width: "100%" }}
-              />
             </div>
           )}
 
-          <div>
-            <div className="modal-competitive-label">
-                Formación
-            </div>
-
-            <div className="team-field">
-
-            {/* Delanteros */}
-            <div className="field-row">
-                {forwards.map(p => (
-                <div key={p.id} className="field-player">
-                    <img src={p.image_url} alt={p.name}/>
-                    <span>{p.name}</span>
-                </div>
-                ))}
-            </div>
-
-            {/* Centrocampistas */}
-            <div className="field-row">
-                {midfielders.map(p => (
-                <div key={p.id} className="field-player">
-                    <img src={p.image_url} alt={p.name}/>
-                    <span>{p.name}</span>
-                </div>
-                ))}
-            </div>
-
-            {/* Defensas */}
-            <div className="field-row">
-                {defenders.map(p => (
-                <div key={p.id} className="field-player">
-                    <img src={p.image_url} alt={p.name}/>
-                    <span>{p.name}</span>
-                </div>
-                ))}
-            </div>
-
-            {/* Portero */}
-            <div className="field-row">
-                {goalkeepers.map(p => (
-                <div key={p.id} className="field-player">
-                    <img src={p.image_url} alt={p.name}/>
-                    <span>{p.name}</span>
-                </div>
-                ))}
-            </div>
-    </div>
-            </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default TeamModal;

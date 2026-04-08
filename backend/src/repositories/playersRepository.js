@@ -1,6 +1,7 @@
 import pool from '../config/db.js';
+import mysql from 'mysql2';
 
-export const findAllPlayers = async ({ game, name, team } = {}) => {
+export const findAllPlayers = async ({ game, name, position, element, sex, team, statName, statMin } = {}) => {
   let query = `
     SELECT 
       p.id, p.name, p.sex, p.description, p.image_url, p.competitive_notes,
@@ -9,15 +10,23 @@ export const findAllPlayers = async ({ game, name, team } = {}) => {
     FROM players p
     JOIN player_game_entries pge ON pge.player_id = p.id
     LEFT JOIN teams t ON t.id = pge.team_id
+    LEFT JOIN player_stats ps ON ps.entry_id = pge.id
     WHERE 1=1
   `;
   const params = [];
 
-  if (game) { query += ' AND pge.game = ?';  params.push(game); }
-  if (name) { query += ' AND p.name LIKE ?'; params.push(`%${name}%`); }
-  if (team) { query += ' AND t.name LIKE ?'; params.push(`%${team}%`); }
+  if (game)     { query += ' AND pge.game = ?';       params.push(game); }
+  if (name)     { query += ' AND p.name LIKE ?';      params.push(`%${name}%`); }
+  if (position) { query += ' AND pge.position = ?';   params.push(position); }
+  if (element)  { query += ' AND pge.element = ?';    params.push(element); }
+  if (sex)      { query += ' AND p.sex = ?';          params.push(sex); }
+  if (team)     { query += ' AND t.name LIKE ?';      params.push(`%${team}%`); }
+  if (statName && statMin) {
+    query += ` AND ps.${mysql.escapeId(statName)} >= ?`;
+    params.push(Number(statMin));
+  }
 
-  query += ' ORDER BY p.name';
+  query += ' GROUP BY pge.id ORDER BY p.name';
 
   const [rows] = await pool.query(query, params);
   return rows;

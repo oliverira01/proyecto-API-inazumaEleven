@@ -17,14 +17,15 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Servir imágenes estáticas
-
+// Servir imágenes
 app.use('/images', express.static(path.join(__dirname, '../../images')));
+
+// Servir sonidos
+app.use('/sounds', express.static(path.join(__dirname, '../../sounds')));
 
 app.use('/api/players', playersRouter);
 app.use('/api/teams',   teamsRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
-  console.log('Sirviendo imágenes desde:', path.join(__dirname, '../../images'));
 });

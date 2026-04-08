@@ -28,8 +28,8 @@ export const getTechniqueLevelPower = async (req, res) => {
 
 export const getPlayers = async (req, res) => {
   try {
-    const { game, name, team } = req.query;
-    const players = await findAllPlayers({ game, name, team });
+    const { game, name, position, element, sex, team, statName, statMin } = req.query;
+    const players = await findAllPlayers({ game, name, position, element, sex, team, statName, statMin });
     res.json(players);
   } catch (err) {
     console.error(err);

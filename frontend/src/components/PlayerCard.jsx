@@ -13,9 +13,6 @@ function PlayerCard({ player, onClick }) {
               <span className={`badge badge-${player.element}`}>{player.element}</span>
               <span className={`badge badge-${player.sex}`}>{player.sex}</span>
             </div>
-            <p className="recruit-level">
-              Nivel de fichaje: <span>{player.recruit_level}</span>
-            </p>
           </div>
 
           {player.image_url ? (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FORMATIONS } from '../data/formations';
+import { getImageUrl } from '../hooks/imageUrl';
 
 const API_URL = 'http://localhost:3001/api/teams';
 
@@ -13,7 +14,7 @@ function FieldPlayer({ player, onDragStart, onDrop }) {
       onDrop={onDrop}
     >
       {player.image_url ? (
-        <img src={player.image_url} alt={player.name} />
+        <img src={getImageUrl(player.image_url)} alt={player.name} />
       ) : (
         <div className="field-player-placeholder">⚽</div>
       )}

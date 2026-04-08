@@ -13,3 +13,11 @@ export const getPlayerById = (id) => {
 export const getPlayerStats = (entryId) => {
   return axios.get(`${BASE_URL}/players/${entryId}/stats`);
 };
+
+export const getPlayerTechniques = (entryId) => {
+  return axios.get(`${BASE_URL}/players/${entryId}/techniques`);
+};
+
+export const getTechniqueLevelPower = (techEntryId) => {
+  return axios.get(`${BASE_URL}/players/techniques/${techEntryId}/power`);
+};

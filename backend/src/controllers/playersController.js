@@ -1,4 +1,30 @@
-import { findAllPlayers, findPlayerById, findPlayerStats } from '../repositories/playersRepository.js';
+import {
+  findAllPlayers,
+  findPlayerById,
+  findPlayerStats,
+  findPlayerTechniques,
+  findTechniqueLevelPower
+} from '../repositories/playersRepository.js';
+
+export const getPlayerTechniques = async (req, res) => {
+  try {
+    const techniques = await findPlayerTechniques(req.params.entryId);
+    res.json(techniques);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al obtener técnicas del jugador' });
+  }
+};
+
+export const getTechniqueLevelPower = async (req, res) => {
+  try {
+    const levels = await findTechniqueLevelPower(req.params.techEntryId);
+    res.json(levels);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al obtener potencia por nivel' });
+  }
+};
 
 export const getPlayers = async (req, res) => {
   try {

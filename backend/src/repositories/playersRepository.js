@@ -46,3 +46,28 @@ export const findPlayerStats = async (entryId) => {
   `, [entryId]);
   return rows;
 };
+
+export const findPlayerTechniques = async (entryId) => {
+  const [rows] = await pool.query(`
+    SELECT
+      t.id, t.name, t.description, t.image_url, t.element, t.type,
+      tge.id AS tech_entry_id, tge.game, tge.pt_cost, tge.base_power,
+      tge.level_up_formula, tge.obtain_method
+    FROM player_techniques pt
+    JOIN technique_game_entries tge ON tge.id = pt.tech_entry_id
+    JOIN techniques t ON t.id = tge.technique_id
+    WHERE pt.entry_id = ?
+    ORDER BY t.name
+  `, [entryId]);
+  return rows;
+};
+
+export const findTechniqueLevelPower = async (techEntryId) => {
+  const [rows] = await pool.query(`
+    SELECT level, power
+    FROM technique_level_power
+    WHERE tech_entry_id = ?
+    ORDER BY power ASC
+  `, [techEntryId]);
+  return rows;
+};

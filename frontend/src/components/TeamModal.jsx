@@ -42,6 +42,8 @@ function FormationField({ players, formation, allPlayers, setAllPlayers }) {
     // intercambiar
     [updated[fromIndex], updated[targetIndex]] = [updated[targetIndex], updated[fromIndex]];
 
+    
+
     setAllPlayers(updated);
     window.draggedPlayer = null;
   };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPlayerStats } from '../api/playersApi';
+import { getPlayerStats, getPlayerTechniques } from '../api/playersApi';
 
 const POSITION_LABEL = {
   DL:  'DL',
@@ -15,6 +15,13 @@ const ELEMENT_STYLES = {
   Montaña: { color: '#92400e', bg: '#1a0f00', border: '#92400e' },
 };
 
+const TECHNIQUE_ELEMENT_COLOR = {
+  Fuego:   '#dc2626',
+  Bosque:  '#16a34a',
+  Aire:    '#2563eb',
+  Montaña: '#92400e',
+};
+
 function StatRow({ label, value }) {
   return (
     <div className="modal-stat-row">
@@ -24,9 +31,63 @@ function StatRow({ label, value }) {
   );
 }
 
+const TECHNIQUE_TYPE_LABEL = {
+  Tiro:    'TIR',
+  Regate:  'REG',
+  Bloqueo: 'BLO',
+  Parada:  'PAR',
+  Enlace:  'TAL',
+};
+
+const TECHNIQUE_TYPE_COLOR = {
+  Tiro:    '#dc2626',
+  Regate:  '#2563eb',
+  Bloqueo: '#16a34a',
+  Parada:  '#f59e0b',
+  Enlace:  '#a855f7',
+};
+
+function TechniqueRow({ technique }) {
+  const nameColor  = TECHNIQUE_ELEMENT_COLOR[technique.element] ?? '#a855f7';
+  const typeLabel  = TECHNIQUE_TYPE_LABEL[technique.type] ?? '—';
+  const typeBg     = TECHNIQUE_TYPE_COLOR[technique.type] ?? '#444';
+
+  return (
+    <div className="technique-row">
+      <div className="technique-row-left">
+        <div className="technique-name-row">
+          {technique.type && (
+            <span
+              className="technique-type-badge"
+              style={{ background: typeBg }}
+            >
+              {typeLabel}
+            </span>
+          )}
+          <span className="technique-name" style={{ color: nameColor }}>
+            {technique.name}
+          </span>
+        </div>
+        {technique.element && (
+          <span className="technique-element" style={{ color: nameColor }}>
+          </span>
+        )}
+      </div>
+      <div className="technique-row-right">
+        {technique.base_power && (
+          <span className="technique-power">Potencia Base: {technique.base_power}</span>
+        )}
+        <span className="technique-pt">PT {technique.pt_cost}</span>
+      </div>
+    </div>
+  );
+}
+
 function PlayerModal({ player, game, onClose }) {
-  const [stats, setStats]     = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats]           = useState([]);
+  const [techniques, setTechniques] = useState([]);
+  const [loading, setLoading]       = useState(true);
+  const [loadingTech, setLoadingTech] = useState(true);
 
   const el = ELEMENT_STYLES[player.element] ?? ELEMENT_STYLES.Fuego;
 
@@ -41,7 +102,20 @@ function PlayerModal({ player, game, onClose }) {
         setLoading(false);
       }
     };
+
+    const fetchTechniques = async () => {
+      try {
+        const { data } = await getPlayerTechniques(player.entry_id);
+        setTechniques(Array.isArray(data) ? data : []);
+      } catch {
+        setTechniques([]);
+      } finally {
+        setLoadingTech(false);
+      }
+    };
+
     fetchStats();
+    fetchTechniques();
 
     const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', handleKey);
@@ -122,6 +196,20 @@ function PlayerModal({ player, game, onClose }) {
 
           {!loading && stats.length === 0 && (
             <p className="status-msg">No hay stats registradas.</p>
+          )}
+
+          {/* Supertécnicas */}
+          <div className="modal-competitive-label">Supertécnicas</div>
+          {loadingTech && <p className="status-msg">Cargando técnicas...</p>}
+          {!loadingTech && techniques.length === 0 && (
+            <p className="status-msg">No hay técnicas registradas.</p>
+          )}
+          {!loadingTech && techniques.length > 0 && (
+            <div className="techniques-list">
+              {techniques.map(t => (
+                <TechniqueRow key={t.tech_entry_id} technique={t} />
+              ))}
+            </div>
           )}
 
           {/* Descripción */}

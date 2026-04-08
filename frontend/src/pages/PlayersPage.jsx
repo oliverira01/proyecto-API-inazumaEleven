@@ -79,18 +79,18 @@ function PlayersPage() {
 
       {/* Filtros */}
       <div className="filters-panel">
-        {/* Búsqueda */}
-        <div className="search-bar">
-          <input
-            type="text"
-            className="search-bar"
-            placeholder="Buscar jugador..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-        </div>
-
         <div className="filters-row">
+
+          {/* Búsqueda */}
+          <div className="search-bar">
+            <input
+              type="text"
+              className="search-bar"
+              placeholder="Buscar jugador..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </div>
 
           {/* Posición */}
           <select

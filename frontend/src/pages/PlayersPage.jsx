@@ -13,7 +13,7 @@ function PlayersPage() {
 
   useEffect(() => {
     fetchPlayers();
-  }, [game]);
+  }, [game, search]);
 
   const fetchPlayers = async () => {
     try {
@@ -26,11 +26,6 @@ function PlayersPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    fetchPlayers();
   };
 
   return (
@@ -47,16 +42,16 @@ function PlayersPage() {
             </button>
           ))}
         </div>
-        <form onSubmit={handleSearch} className="search-bar">
+        <div className="search-bar">
           <input
             type="text"
+            className="search-bar"
             placeholder="Buscar jugador..."
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
-          <button type="submit">Buscar</button>
-        </form>
-      </div>
+        </div>
+        </div>
 
       {loading && <p className="status-msg">Cargando jugadores...</p>}
       {error   && <p className="status-msg error">{error}</p>}

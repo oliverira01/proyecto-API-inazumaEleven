@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getPlayerStats, getPlayerTechniques } from '../api/playersApi';
+import { getImageUrl } from '../hooks/imageUrl';
 
 const POSITION_LABEL = {
   DL:  'DL',
@@ -136,7 +137,7 @@ function PlayerModal({ player, game, onClose }) {
           <div className="modal-header-left">
             <img
               className="modal-avatar"
-              src={player.image_url ?? '/images/placeholder.png'}
+              src={getImageUrl(player.image_url) ?? '/images/placeholder.png'}
               alt={player.name}
             />
           </div>

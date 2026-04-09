@@ -1,9 +1,15 @@
+import dbPromise from "./db.js";
+const db = await dbPromise;
+
+await db.exec(`
+
 PRAGMA foreign_keys = ON;
+PRAGMA journal_mode = WAL;
 
 -- ============================================================
 -- EQUIPOS
 -- ============================================================
-CREATE TABLE teams (
+CREATE TABLE IF NOT EXISTS teams (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   description TEXT,
@@ -12,13 +18,15 @@ CREATE TABLE teams (
   image_url TEXT,
   in_match_chain INTEGER NOT NULL DEFAULT 0,
 
+
   UNIQUE (name, game)
 );
+
 
 -- ============================================================
 -- JUGADORES
 -- ============================================================
-CREATE TABLE players (
+CREATE TABLE IF NOT EXISTS players (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   description TEXT,
@@ -26,10 +34,11 @@ CREATE TABLE players (
   competitive_notes TEXT
 );
 
+
 -- ============================================================
 -- ENTRADA DE JUGADOR POR JUEGO
 -- ============================================================
-CREATE TABLE player_game_entries (
+CREATE TABLE IF NOT EXISTS player_game_entries (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   player_id INTEGER NOT NULL,
   game TEXT NOT NULL CHECK (game IN ('IE1','IE2','IE3')),
@@ -38,22 +47,27 @@ CREATE TABLE player_game_entries (
   position TEXT NOT NULL CHECK (position IN ('DL','MC','DF','POR')),
   element TEXT NOT NULL CHECK (element IN ('Fuego','Bosque','Aire','Montaña')),
 
+
   UNIQUE (player_id, game),
+
 
   FOREIGN KEY (player_id) REFERENCES players(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
+
 
   FOREIGN KEY (team_id) REFERENCES teams(id)
     ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+
 -- ============================================================
 -- ESTADÍSTICAS POR NIVEL
 -- ============================================================
-CREATE TABLE player_stats (
+CREATE TABLE IF NOT EXISTS player_stats (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   entry_id INTEGER NOT NULL,
   level INTEGER NOT NULL,
+
 
   pe INTEGER NOT NULL DEFAULT 0,
   pt INTEGER NOT NULL DEFAULT 0,
@@ -66,26 +80,30 @@ CREATE TABLE player_stats (
   valor INTEGER NOT NULL DEFAULT 0,
   libertad INTEGER NOT NULL DEFAULT 0,
 
+
   UNIQUE (entry_id, level),
+
 
   FOREIGN KEY (entry_id) REFERENCES player_game_entries(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
 -- ============================================================
 -- SUPERTÉCNICAS
 -- ============================================================
-CREATE TABLE techniques (
+CREATE TABLE IF NOT EXISTS techniques (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   description TEXT,
   image_url TEXT
 );
 
+
 -- ============================================================
 -- ENTRADA DE TÉCNICA POR JUEGO
 -- ============================================================
-CREATE TABLE technique_game_entries (
+CREATE TABLE IF NOT EXISTS technique_game_entries (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   technique_id INTEGER NOT NULL,
   game TEXT NOT NULL CHECK (game IN ('IE1','IE2','IE3')),
@@ -94,42 +112,52 @@ CREATE TABLE technique_game_entries (
   level_up_formula TEXT,
   obtain_method TEXT,
 
+
   UNIQUE (technique_id, game),
+
 
   FOREIGN KEY (technique_id) REFERENCES techniques(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
 -- ============================================================
 -- POTENCIA DE TÉCNICA POR NIVEL
 -- ============================================================
-CREATE TABLE technique_level_power (
+CREATE TABLE IF NOT EXISTS technique_level_power (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   tech_entry_id INTEGER NOT NULL,
   level TEXT NOT NULL,
   power INTEGER NOT NULL,
 
+
   UNIQUE (tech_entry_id, level),
+
 
   FOREIGN KEY (tech_entry_id) REFERENCES technique_game_entries(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 
 -- ============================================================
 -- PIVOT: técnicas de jugadores
 -- ============================================================
-CREATE TABLE player_techniques (
+CREATE TABLE IF NOT EXISTS player_techniques (
   entry_id INTEGER NOT NULL,
   tech_entry_id INTEGER NOT NULL,
 
+
   PRIMARY KEY (entry_id, tech_entry_id),
+
 
   FOREIGN KEY (entry_id) REFERENCES player_game_entries(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
 
+
   FOREIGN KEY (tech_entry_id) REFERENCES technique_game_entries(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 
 -- ============================================================
 -- ÍNDICES
@@ -142,18 +170,20 @@ CREATE INDEX idx_stats_entry  ON player_stats(entry_id);
 CREATE INDEX idx_tge_game     ON technique_game_entries(game);
 CREATE INDEX idx_tlp_entry    ON technique_level_power(tech_entry_id);
 
+
 -- ============================================================
 -- ITEMS — datos invariantes entre juegos
 -- ============================================================
-CREATE TABLE items (
+CREATE TABLE IF NOT EXISTS items (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL
 );
 
+
 -- ============================================================
 -- ENTRADA DE ITEM POR JUEGO
 -- ============================================================
-CREATE TABLE item_game_entries (
+CREATE TABLE IF NOT EXISTS item_game_entries (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   item_id INTEGER NOT NULL,
   game TEXT NOT NULL CHECK (game IN ('IE1','IE2','IE3')),
@@ -163,16 +193,19 @@ CREATE TABLE item_game_entries (
   buy_price INTEGER,
   sell_price INTEGER,
 
+
   UNIQUE (item_id, game),
+
 
   FOREIGN KEY (item_id) REFERENCES items(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
 -- ============================================================
 -- TIENDAS
 -- ============================================================
-CREATE TABLE shops (
+CREATE TABLE IF NOT EXISTS shops (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   type TEXT NOT NULL CHECK (type IN ('consumibles','equipaciones','tecnicas')),
@@ -181,42 +214,51 @@ CREATE TABLE shops (
   description TEXT
 );
 
+
 -- ============================================================
 -- PIVOT: ITEMS DE TIENDAS
 -- ============================================================
-CREATE TABLE shop_items (
+CREATE TABLE IF NOT EXISTS shop_items (
   shop_id INTEGER NOT NULL,
   item_entry_id INTEGER NOT NULL,
 
+
   PRIMARY KEY (shop_id, item_entry_id),
+
 
   FOREIGN KEY (shop_id) REFERENCES shops(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
+
 
   FOREIGN KEY (item_entry_id) REFERENCES item_game_entries(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
 -- ============================================================
 -- PIVOT: TÉCNICAS DE TIENDAS
 -- ============================================================
-CREATE TABLE shop_techniques (
+CREATE TABLE IF NOT EXISTS shop_techniques (
   shop_id INTEGER NOT NULL,
   tech_entry_id INTEGER NOT NULL,
 
+
   PRIMARY KEY (shop_id, tech_entry_id),
+
 
   FOREIGN KEY (shop_id) REFERENCES shops(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
+
 
   FOREIGN KEY (tech_entry_id) REFERENCES technique_game_entries(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
 -- ============================================================
 -- CADENAS DE PARTIDOS
 -- ============================================================
-CREATE TABLE match_chains (
+CREATE TABLE IF NOT EXISTS match_chains (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   game TEXT NOT NULL CHECK (game IN ('IE1','IE2','IE3')),
@@ -227,43 +269,51 @@ CREATE TABLE match_chains (
   reward_text TEXT
 );
 
+
 -- ============================================================
 -- EQUIPOS EN UNA CADENA
 -- ============================================================
-CREATE TABLE match_chain_teams (
+CREATE TABLE IF NOT EXISTS match_chain_teams (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   chain_id INTEGER NOT NULL,
   team_id INTEGER NOT NULL,
   order_index INTEGER NOT NULL,
 
+
   UNIQUE (chain_id, order_index),
+
 
   FOREIGN KEY (chain_id) REFERENCES match_chains(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
+
 
   FOREIGN KEY (team_id) REFERENCES teams(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
 -- ============================================================
 -- DROPS DE ITEMS
 -- ============================================================
-CREATE TABLE match_chain_drops (
+CREATE TABLE IF NOT EXISTS match_chain_drops (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   chain_team_id INTEGER NOT NULL,
   item_entry_id INTEGER NOT NULL,
 
+
   FOREIGN KEY (chain_team_id) REFERENCES match_chain_teams(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
+
 
   FOREIGN KEY (item_entry_id) REFERENCES item_game_entries(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
 -- ============================================================
 -- ENTRENAMIENTOS
 -- ============================================================
-CREATE TABLE trainings (
+CREATE TABLE IF NOT EXISTS trainings (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   type TEXT NOT NULL CHECK (type IN (
@@ -272,6 +322,7 @@ CREATE TABLE trainings (
   game TEXT NOT NULL CHECK (game IN ('IE1','IE2','IE3')),
   image_url TEXT
 );
+
 
 -- ============================================================
 -- ÍNDICES
@@ -284,10 +335,11 @@ CREATE INDEX idx_mct_chain      ON match_chain_teams(chain_id);
 CREATE INDEX idx_mcd_chain_team ON match_chain_drops(chain_team_id);
 CREATE INDEX idx_trainings_game ON trainings(game);
 
+
 -- ============================================================
 -- TORNEOS (exclusivo IE3)
 -- ============================================================
-CREATE TABLE tournaments (
+CREATE TABLE IF NOT EXISTS tournaments (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   description TEXT,
@@ -297,70 +349,85 @@ CREATE TABLE tournaments (
   )
 );
 
+
 -- ============================================================
 -- JUGADORES NECESARIOS PARA DESBLOQUEAR EL TORNEO
 -- ============================================================
-CREATE TABLE tournament_required_players (
+CREATE TABLE IF NOT EXISTS tournament_required_players (
   tournament_id INTEGER NOT NULL,
   entry_id INTEGER NOT NULL,
 
+
   PRIMARY KEY (tournament_id, entry_id),
+
 
   FOREIGN KEY (tournament_id) REFERENCES tournaments(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
+
 
   FOREIGN KEY (entry_id) REFERENCES player_game_entries(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
 -- ============================================================
 -- EQUIPOS QUE APARECEN EN EL TORNEO
 -- ============================================================
-CREATE TABLE tournament_teams (
+CREATE TABLE IF NOT EXISTS tournament_teams (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   tournament_id INTEGER NOT NULL,
   team_id INTEGER NOT NULL,
   team_level INTEGER NOT NULL,
   order_index INTEGER NOT NULL,
 
+
   UNIQUE (tournament_id, order_index),
+
 
   FOREIGN KEY (tournament_id) REFERENCES tournaments(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
+
 
   FOREIGN KEY (team_id) REFERENCES teams(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
 -- ============================================================
 -- DROPS POR PARTIDO
 -- ============================================================
-CREATE TABLE tournament_match_drops (
+CREATE TABLE IF NOT EXISTS tournament_match_drops (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   tournament_team_id INTEGER NOT NULL,
   item_entry_id INTEGER NOT NULL,
 
+
   FOREIGN KEY (tournament_team_id) REFERENCES tournament_teams(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
+
 
   FOREIGN KEY (item_entry_id) REFERENCES item_game_entries(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 
 -- ============================================================
 -- RECOMPENSA FINAL DEL TORNEO
 -- ============================================================
-CREATE TABLE tournament_rewards (
+CREATE TABLE IF NOT EXISTS tournament_rewards (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   tournament_id INTEGER NOT NULL,
   item_entry_id INTEGER NOT NULL,
 
+
   FOREIGN KEY (tournament_id) REFERENCES tournaments(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
+
 
   FOREIGN KEY (item_entry_id) REFERENCES item_game_entries(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 
 -- ============================================================
 -- ÍNDICES
@@ -368,3 +435,6 @@ CREATE TABLE tournament_rewards (
 CREATE INDEX idx_tt_tournament ON tournament_teams(tournament_id);
 CREATE INDEX idx_tmd_tt ON tournament_match_drops(tournament_team_id);
 CREATE INDEX idx_tr_tournament ON tournament_rewards(tournament_id);
+`);
+
+console.log('Base de datos inicializada correctamente.');

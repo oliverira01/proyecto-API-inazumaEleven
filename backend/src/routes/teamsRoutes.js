@@ -3,8 +3,8 @@ import { getTeams, getTeamById, getTeamPlayers } from '../controllers/teamsContr
 
 const router = express.Router();
 
-router.get('/',              getTeams);
-router.get('/:id',           getTeamById);
-router.get('/:id/players',   getTeamPlayers);
+router.get('/', getTeams);
+router.get('/:id',  getTeamById);
+router.get('/:id/players', getTeamPlayers);
 
 export default router;

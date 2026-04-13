@@ -52,50 +52,48 @@ const TeamsPage = () => {
   return (
     <div className="home-page">
 
-      <div className="filters">
+  <div className="teams-filters">
 
-        <div className="game-tabs">
+    <div className="game-tabs">
+      <button
+        className={!game ? "active" : ""}
+        onClick={() => setGame("")}
+      >
+        Todos
+      </button>
+      <button
+        className={game === "IE1" ? "active" : ""}
+        onClick={() => setGame("IE1")}
+      >
+        IE1
+      </button>
+      <button
+        className={game === "IE2" ? "active" : ""}
+        onClick={() => setGame("IE2")}
+      >
+        IE2
+      </button>
+      <button
+        className={game === "IE3" ? "active" : ""}
+        onClick={() => setGame("IE3")}
+      >
+        IE3
+      </button>
+    </div>
 
-          <button
-            className={!game ? "active" : ""}
-            onClick={() => setGame("")}
-          >
-            Todos
-          </button>
-
-          <button
-            className={game === "IE1" ? "active" : ""}
-            onClick={() => setGame("IE1")}
-          >
-            IE1
-          </button>
-
-          <button
-            className={game === "IE2" ? "active" : ""}
-            onClick={() => setGame("IE2")}
-          >
-            IE2
-          </button>
-
-          <button
-            className={game === "IE3" ? "active" : ""}
-            onClick={() => setGame("IE3")}
-          >
-            IE3
-          </button>
-
-        </div>
-
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Buscar equipo..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-
+    <div className="filters-panel">
+      <div className="search-bar-container">
+        <input
+          type="text"
+          className="search-bar"
+          placeholder="Buscar equipo..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
+    </div>
+
+  </div>
 
       {loading ? (
         <div className="status-msg">Cargando equipos...</div>

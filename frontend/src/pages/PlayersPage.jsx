@@ -64,112 +64,118 @@ function PlayersPage() {
   return (
     <div className="home-page">
 
-      {/* Tabs de juego */}
-      <div className="game-tabs">
-        {['IE1', 'IE2', 'IE3'].map(g => (
-          <button
-            key={g}
-            className={game === g ? 'active' : ''}
-            onClick={() => setGame(g)}
-          >
-            {g}
-          </button>
-        ))}
+  <div className="players-filters">
+
+    {/* Tabs de juego */}
+    <div className="game-tabs">
+      {['IE1', 'IE2', 'IE3'].map(g => (
+        <button
+          key={g}
+          className={game === g ? 'active' : ''}
+          onClick={() => setGame(g)}
+        >
+          {g}
+        </button>
+      ))}
+    </div>
+
+    {/* Filtros */}
+    <div className="filters-panel">
+
+      {/* Búsqueda */}
+      <div className="search-bar-container">
+        <input
+          type="text"
+          className="search-bar"
+          placeholder="Buscar jugador..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
       </div>
 
-      {/* Filtros */}
-      <div className="filters-panel">
-        <div className="filters-row">
+      <div className="filters-row">
 
-          {/* Búsqueda */}
-          <div className="search-bar">
-            <input
-              type="text"
-              className="search-bar"
-              placeholder="Buscar jugador..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-          </div>
+        {/* Posición */}
+        <select
+          className="filter-select"
+          value={position}
+          onChange={e => setPosition(e.target.value)}
+        >
+          <option value="">Posición</option>
+          {POSITIONS.map(p => (
+            <option key={p} value={p}>{p}</option>
+          ))}
+        </select>
 
-          {/* Posición */}
-          <select
-            className="filter-select"
-            value={position}
-            onChange={e => setPosition(e.target.value)}
-          >
-            <option value="">Posición</option>
-            {POSITIONS.map(p => (
-              <option key={p} value={p}>{p}</option>
-            ))}
-          </select>
+        {/* Elemento */}
+        <select
+          className="filter-select"
+          value={element}
+          onChange={e => setElement(e.target.value)}
+        >
+          <option value="">Elemento</option>
+          {ELEMENTS.map(e => (
+            <option key={e} value={e}>{e}</option>
+          ))}
+        </select>
 
-          {/* Elemento */}
-          <select
-            className="filter-select"
-            value={element}
-            onChange={e => setElement(e.target.value)}
-          >
-            <option value="">Elemento</option>
-            {ELEMENTS.map(e => (
-              <option key={e} value={e}>{e}</option>
-            ))}
-          </select>
+        {/* Género */}
+        <select
+          className="filter-select"
+          value={sex}
+          onChange={e => setSex(e.target.value)}
+        >
+          <option value="">Género</option>
+          {GENDERS.map(g => (
+            <option key={g} value={g}>{g}</option>
+          ))}
+        </select>
 
-          {/* Género */}
-          <select
-            className="filter-select"
-            value={sex}
-            onChange={e => setSex(e.target.value)}
-          >
-            <option value="">Género</option>
-            {GENDERS.map(g => (
-              <option key={g} value={g}>{g}</option>
-            ))}
-          </select>
+        {/* Equipo */}
+        <input
+          type="text"
+          className="filter-select"
+          placeholder="Equipo..."
+          value={team}
+          onChange={e => setTeam(e.target.value)}
+        />
 
-          {/* Equipo */}
+        {/* Estadística */}
+        <select
+          className="filter-select"
+          value={statName}
+          onChange={e => setStatName(e.target.value)}
+        >
+          <option value="">Estadística</option>
+          {STATS.map(s => (
+            <option key={s} value={s}>
+              {s.charAt(0).toUpperCase() + s.slice(1)}
+            </option>
+          ))}
+        </select>
+
+        {/* Valor mínimo de stat */}
+        {statName && (
           <input
-            type="text"
-            className="filter-select"
-            placeholder="Equipo..."
-            value={team}
-            onChange={e => setTeam(e.target.value)}
+            type="number"
+            className="filter-select filter-stat-min"
+            placeholder="Mínimo..."
+            value={statMin}
+            min={0}
+            onChange={e => setStatMin(e.target.value)}
           />
+        )}
 
-          {/* Estadística */}
-          <select
-            className="filter-select"
-            value={statName}
-            onChange={e => setStatName(e.target.value)}
-          >
-            <option value="">Estadística</option>
-            {STATS.map(s => (
-              <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
-            ))}
-          </select>
+        {/* Reset filtros */}
+        {activeFilters > 0 && (
+          <button className="filter-reset" onClick={resetFilters}>
+            Limpiar ({activeFilters})
+          </button>
+        )}
 
-          {/* Valor mínimo de stat */}
-          {statName && (
-            <input
-              type="number"
-              className="filter-select filter-stat-min"
-              placeholder="Mínimo..."
-              value={statMin}
-              min={0}
-              onChange={e => setStatMin(e.target.value)}
-            />
-          )}
-
-          {/* Reset filtros */}
-          {activeFilters > 0 && (
-            <button className="filter-reset" onClick={resetFilters}>
-              Limpiar ({activeFilters})
-            </button>
-          )}
-
-        </div>
       </div>
+    </div>
+  </div>
 
       {loading && <p className="status-msg">Cargando jugadores...</p>}
       {error   && <p className="status-msg error">{error}</p>}

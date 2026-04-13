@@ -1,0 +1,175 @@
+.techniques-page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.technique-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.technique-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.technique-table thead tr {
+  background: var(--bg-secondary);
+}
+
+.technique-table th {
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.technique-table-row {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.technique-table-row:hover {
+  background: var(--bg-secondary);
+  cursor: pointer;
+}
+
+.technique-table td {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.technique-table-img img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.technique-img-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.technique-table-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.technique-table-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.technique-table-element {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.technique-table-center {
+  text-align: center;
+}
+
+.technique-table-obtain {
+  font-size: 12px;
+  color: var(--text-secondary);
+  max-width: 200px;
+}
+
+.search-bar-container {
+  width: 100%;
+}
+
+.search-bar {
+  width: 20%;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-bar:focus {
+  border-color: var(--accent-gold);
+}
+
+.techniques-filters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.techniques-filters .game-tabs {
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.techniques-filters .filters-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.techniques-filters .search-bar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.techniques-filters .search-bar {
+  width: 40%;
+  min-width: 280px;
+}
+
+.techniques-filters .filters-row {
+  justify-content: center;
+  width: 100%;
+}
+
+.technique-section {
+  border: 2px solid;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.technique-section-tiro    { border-color: #dc2626; }
+.technique-section-regate  { border-color: #2563eb; }
+.technique-section-bloqueo { border-color: #16a34a; }
+.technique-section-parada  { border-color: #f59e0b; }
+.technique-section-enlace  { border-color: #a855f7; }
+
+.technique-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 12px 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 0;
+  background: var(--bg-secondary);
+}

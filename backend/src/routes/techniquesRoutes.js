@@ -1,12 +1,16 @@
-// routes/techniquesRoutes.js
 import express from 'express';
-import {  getAllTechniques, getTechniqueById, getTechniquesByElements, getTechniquesByAffinity } from '../controllers/techniquesController.js';
+import {
+  getTechniques,
+  getTechniqueById,
+  getTechniquePowerLevels,
+  getTechniquePlayers
+} from '../controllers/techniquesController.js';
 
 const router = express.Router();
 
-router.get('/', getAllTechniques);
-router.get('/:id', getTechniqueById);
-router.get('/element/:element', getTechniquesByElements);
-router.get('/affinity/:affinity', getTechniquesByAffinity);
+router.get('/',                        getTechniques);
+router.get('/:techEntryId',            getTechniqueById);
+router.get('/:techEntryId/levels',     getTechniquePowerLevels);
+router.get('/:techEntryId/players',    getTechniquePlayers);
 
 export default router;

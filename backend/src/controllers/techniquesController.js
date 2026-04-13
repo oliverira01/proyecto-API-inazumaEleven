@@ -1,46 +1,50 @@
-import * as techniquesRepo from '../repositories/techniquesRepository.js';
+import {
+  findAllTechniques,
+  findTechniqueById,
+  findTechniquePowerLevels,
+  findTechniquePlayers
+} from '../repositories/techniquesRepository.js';
 
-export const getAllTechniques = async (req, res) => {
+export const getTechniques = async (req, res) => {
   try {
-    const { game, name } = req.query;
-    const techniques = await techniquesRepo.findAllTechniques({ game, name });
+    const { game, name, element, type } = req.query;
+    const techniques = await findAllTechniques({ game, name, element, type });
     res.json(techniques);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Error al obtener técnicas' });
+    res.status(500).json({ error: 'Error al obtener técnicas' });
   }
 };
 
 export const getTechniqueById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const technique = await techniquesRepo.findTechniqueById(id);
-    if (!technique) return res.status(404).json({ message: 'Técnica no encontrada' });
+    const technique = await findTechniqueById(req.params.techEntryId);
+    if (!technique) {
+      return res.status(404).json({ error: 'Técnica no encontrada' });
+    }
     res.json(technique);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Error al obtener la técnica' });
+    res.status(500).json({ error: 'Error al obtener la técnica' });
   }
 };
 
-export const getTechniquesByElement = async (req, res) => {
+export const getTechniquePowerLevels = async (req, res) => {
   try {
-    const { element } = req.params;
-    const techniques = await techniquesRepo.findAllTechniques({ name: '', game: '', element });
-    res.json(techniques);
+    const levels = await findTechniquePowerLevels(req.params.techEntryId);
+    res.json(levels);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Error al filtrar técnicas por elemento' });
+    res.status(500).json({ error: 'Error al obtener niveles de potencia' });
   }
 };
 
-export const getTechniquesByAffinity = async (req, res) => {
+export const getTechniquePlayers = async (req, res) => {
   try {
-    const { affinity } = req.params;
-    const techniques = await techniquesRepo.findAllTechniques({ affinity });
-    res.json(techniques);
+    const players = await findTechniquePlayers(req.params.techEntryId);
+    res.json(players);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Error al filtrar técnicas por afinidad' });
+    res.status(500).json({ error: 'Error al obtener jugadores de la técnica' });
   }
 };

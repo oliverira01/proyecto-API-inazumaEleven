@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import playersRouter from './routes/playersRoutes.js';
 import teamsRouter from './routes/teamsRoutes.js';
+import techniquesRouter from './routes/techniquesRoutes.js';
 
 dotenv.config();
 
@@ -17,14 +18,13 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Servir imágenes
 app.use('/images', express.static(path.join(__dirname, '../../images')));
 
-// Servir sonidos
 app.use('/sounds', express.static(path.join(__dirname, '../../sounds')));
 
 app.use('/api/players', playersRouter);
 app.use('/api/teams',   teamsRouter);
+app.use('/api/techniques', techniquesRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

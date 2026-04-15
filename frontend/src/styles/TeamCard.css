@@ -1,0 +1,23 @@
+.player-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.player-card-info {
+  flex: 1;
+}
+
+.team-card-image {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-left: 10px;
+}
+
+/* Opcional: línea separadora */
+.player-card-notes {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}

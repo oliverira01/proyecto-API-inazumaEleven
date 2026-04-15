@@ -2,11 +2,10 @@
   background: #0b5e2b;
   border: 2px solid #22c55e;
   border-radius: 12px;
-  padding: 30px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
   position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
 }
 
 .team-field::before {
@@ -15,18 +14,19 @@
   inset: 10px;
   border: 2px solid rgba(255,255,255,0.2);
   border-radius: 8px;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.field-row {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
+.field-player-wrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  z-index: 1;
 }
 
-.field-row-wide {
-  justify-content: space-between;
-  padding: 0 4px;
+.field-player-wrapper:active {
+  cursor: grabbing;
 }
 
 .field-player {
@@ -38,6 +38,7 @@
   font-size: 11px;
   color: white;
   text-align: center;
+  transition: transform 0.3s ease;
 }
 
 .field-player img {

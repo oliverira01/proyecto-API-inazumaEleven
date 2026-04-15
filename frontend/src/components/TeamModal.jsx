@@ -114,10 +114,15 @@ function TeamModal({ team, onClose }) {
         {/* Header */}
         <div className="modal-header">
           {team.image_url ? (
-            <img src={team.image_url} alt={team.name} className="modal-avatar" />
-          ) : (
-            <div className="modal-avatar-placeholder">🛡️</div>
-          )}
+              <img
+                src={getImageUrl(team.image_url)}
+                alt={team.name}
+                className="modal-avatar"
+                onError={e => { e.target.style.display = 'none'; }}
+              />
+            ) : (
+              <div className="modal-avatar-placeholder">🛡️</div>
+            )}
           <div className="modal-header-center">
             <div className="modal-top-row">
               <span className="modal-game-badge">{team.game}</span>

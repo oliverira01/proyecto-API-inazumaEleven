@@ -1,13 +1,14 @@
-import React from "react";
+import { getImageUrl } from '../hooks/imageUrl';
 
 const TeamCard = ({ team, onClick }) => {
   return (
     <div className="player-card" onClick={() => onClick(team)}>
       {team.image_url ? (
         <img
-          src={team.image_url}
+          src={getImageUrl(team.image_url)}
           alt={team.name}
           className="player-card-image"
+          onError={e => { e.target.style.display = 'none'; }}
         />
       ) : (
         <div className="player-card-image placeholder">⚽</div>

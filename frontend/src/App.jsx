@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage';
 import PlayersPage from './pages/PlayersPage';
 import TeamsPage from "./pages/TeamsPage";
 import TechniquesPage from './pages/TechniquesPage';
+import ItemsPage from './pages/ItemsPage';
 import './App.css';
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
         <Route path="/jugadores"         element={<PlayersPage />} />
         <Route path="/equipos"           element={<TeamsPage />} />
         <Route path="/tecnicas"          element={<TechniquesPage />} />
-        <Route path="/items"             element={<div className="status-msg">Próximamente</div>} />
+        <Route path="/items"             element={<ItemsPage />} />
         <Route path="/cadenas"           element={<div className="status-msg">Próximamente</div>} />
         <Route path="/entrenamientos"    element={<div className="status-msg">Próximamente</div>} />
         <Route path="/tiendas"           element={<div className="status-msg">Próximamente</div>} />

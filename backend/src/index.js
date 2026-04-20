@@ -7,6 +7,7 @@ import playersRouter from './routes/playersRoutes.js';
 import teamsRouter from './routes/teamsRoutes.js';
 import techniquesRouter from './routes/techniquesRoutes.js';
 import itemsRouter from './routes/itemsRoutes.js';
+import matchChainsRouter from './routes/matchChainsRoutes.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use('/api/players', playersRouter);
 app.use('/api/teams',   teamsRouter);
 app.use('/api/techniques', techniquesRouter);
 app.use('/api/items', itemsRouter);
+app.use('/api/match-chains', matchChainsRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

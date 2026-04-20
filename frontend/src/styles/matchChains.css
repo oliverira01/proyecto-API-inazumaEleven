@@ -1,0 +1,265 @@
+.chains-filters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.chains-filters .game-tabs {
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.chains-filters .search-bar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.chains-filters .search-bar {
+  width: 40%;
+  min-width: 280px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chains-filters .search-bar:focus {
+  border-color: var(--accent-gold);
+}
+
+.chains-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.chain-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.chain-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-gold);
+}
+
+.chain-card-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  background: var(--bg-secondary);
+}
+
+.chain-card-image.placeholder {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  background: var(--bg-secondary);
+}
+
+.chain-card-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chain-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.chain-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.chain-game-badge {
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+}
+
+.chain-card-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.chain-card-unlock {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.chain-unlock-label {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+/* Modal */
+.chain-modal {
+  max-width: 600px;
+}
+
+.chain-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chain-info-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.chain-teams-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chain-team-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.chain-team-order {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chain-team-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chain-team-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.chain-team-formation {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.chain-drops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.chain-drop-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #1a3b1a;
+  color: #22c55e;
+  border: 1px solid #22c55e44;
+}
+
+.chain-reward {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chain-reward-image {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+  max-height: 160px;
+}
+
+.chain-modal-header-img {
+  position: relative;
+  width: 100%;
+}
+
+.chain-modal-banner {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  border-radius: 14px 14px 0 0;
+}
+
+.chain-modal-banner.placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  background: var(--bg-secondary);
+  border-radius: 14px 14px 0 0;
+}
+
+.chain-modal-title-block {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.chain-modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.chain-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}

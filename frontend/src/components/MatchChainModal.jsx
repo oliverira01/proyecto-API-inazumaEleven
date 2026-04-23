@@ -102,13 +102,6 @@ function MatchChainModal({ chain, onClose }) {
           {(chain.reward_text || chain.reward_image_url) && (
             <div className="chain-reward">
               <span className="modal-competitive-label">Recompensa final</span>
-              {chain.reward_image_url && (
-                <img
-                  className="chain-reward-image"
-                  src={getImageUrl(chain.reward_image_url)}
-                  alt="Recompensa"
-                />
-              )}
               {chain.reward_text && (
                 <p className="chain-info-text">{chain.reward_text}</p>
               )}

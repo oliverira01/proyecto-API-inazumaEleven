@@ -6,6 +6,8 @@ import TeamsPage from "./pages/TeamsPage";
 import TechniquesPage from './pages/TechniquesPage';
 import ItemsPage from './pages/ItemsPage';
 import MatchChainsPage from './pages/MatchChainsPage';
+import TrainingsPage from './pages/TrainingsPage';
+import MapCoordinatePicker from './pages/MapCoordinatePicker';
 import './App.css';
 
 function App() {
@@ -19,10 +21,11 @@ function App() {
         <Route path="/tecnicas"          element={<TechniquesPage />} />
         <Route path="/items"             element={<ItemsPage />} />
         <Route path="/cadenas"           element={<MatchChainsPage />} />
-        <Route path="/entrenamientos"    element={<div className="status-msg">Próximamente</div>} />
+        <Route path="/entrenamientos"    element={<TrainingsPage />} />
         <Route path="/tiendas"           element={<div className="status-msg">Próximamente</div>} />
         <Route path="/torneos"           element={<div className="status-msg">Próximamente</div>} />
         <Route path="/minijuegos"        element={<div className="status-msg">Próximamente</div>} />
+        <Route path="/map-picker" element={<MapCoordinatePicker />} />
       </Routes>
     </BrowserRouter>
   );

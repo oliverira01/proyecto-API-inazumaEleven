@@ -15,16 +15,16 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/"                  element={<LandingPage />} />
-        <Route path="/jugadores"         element={<PlayersPage />} />
-        <Route path="/equipos"           element={<TeamsPage />} />
-        <Route path="/tecnicas"          element={<TechniquesPage />} />
-        <Route path="/items"             element={<ItemsPage />} />
-        <Route path="/cadenas"           element={<MatchChainsPage />} />
-        <Route path="/entrenamientos"    element={<TrainingsPage />} />
-        <Route path="/tiendas"           element={<div className="status-msg">Próximamente</div>} />
-        <Route path="/torneos"           element={<div className="status-msg">Próximamente</div>} />
-        <Route path="/minijuegos"        element={<div className="status-msg">Próximamente</div>} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/jugadores" element={<PlayersPage />} />
+        <Route path="/equipos" element={<TeamsPage />} />
+        <Route path="/tecnicas" element={<TechniquesPage />} />
+        <Route path="/items" element={<ItemsPage />} />
+        <Route path="/cadenas" element={<MatchChainsPage />} />
+        <Route path="/entrenamientos" element={<TrainingsPage />} />
+        <Route path="/tiendas" element={<div className="status-msg">Próximamente</div>} />
+        <Route path="/torneos" element={<div className="status-msg">Próximamente</div>} />
+        <Route path="/minijuegos" element={<div className="status-msg">Próximamente</div>} />
         <Route path="/map-picker" element={<MapCoordinatePicker />} />
       </Routes>
     </BrowserRouter>

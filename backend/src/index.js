@@ -9,6 +9,7 @@ import techniquesRouter from './routes/techniquesRoutes.js';
 import itemsRouter from './routes/itemsRoutes.js';
 import matchChainsRouter from './routes/matchChainsRoutes.js';
 import trainingsRouter from './routes/trainingsRoutes.js';
+import inazudleRouter from './routes/inazudleRoutes.js';
 
 dotenv.config();
 
@@ -31,6 +32,8 @@ app.use('/api/techniques', techniquesRouter);
 app.use('/api/items', itemsRouter);
 app.use('/api/match-chains', matchChainsRouter);
 app.use('/api/trainings', trainingsRouter);
+
+app.use('/api/inazudle', inazudleRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

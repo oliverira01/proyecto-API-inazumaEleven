@@ -14,8 +14,8 @@ const TYPE_COLOR = {
   tiro:    '#dc2626',
   fisico:  '#3b82f6',
   control: '#a855f7',
-  defensa: '#06b6d4',
-  rapidez: '#f59e0b',
+  defensa: '#f59e0b',
+  rapidez: '#06b6d4',
   aguante: '#84cc16',
   valor:   '#ec4899',
 };
@@ -69,10 +69,10 @@ function TrainingModal({ training, onClose }) {
 }
 
 function TrainingsPage() {
-  const [trainings, setTrainings]       = useState([]);
-  const [loading, setLoading]           = useState(true);
-  const [error, setError]               = useState(null);
-  const [game, setGame]                 = useState('IE1');
+  const [trainings, setTrainings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [game, setGame] = useState('IE1');
   const [selectedTraining, setSelectedTraining] = useState(null);
 
   useEffect(() => {
@@ -94,7 +94,6 @@ function TrainingsPage() {
 
   return (
     <div className="home-page">
-
       <div className="trainings-filters">
         <div className="game-tabs">
           {['IE1', 'IE2', 'IE3'].map(g => (

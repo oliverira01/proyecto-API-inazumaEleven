@@ -84,7 +84,7 @@
 }
 
 .technique-table-center {
-  text-align: center;
+  text-align: left;
 }
 
 .technique-table-obtain {
@@ -172,4 +172,11 @@
   text-transform: uppercase;
   margin-bottom: 0;
   background: var(--bg-secondary);
+}
+
+.technique-element-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
 }

@@ -41,10 +41,18 @@ const TYPE_CLASS = {
   Enlace:  'technique-section-enlace',
 };
 
+const ELEMENT_IMAGE = {
+  Fuego:   '/images/elementos/fire.png',
+  Bosque:  '/images/elementos/wood.png',
+  Aire:    '/images/elementos/wind.png',
+  Montaña: '/images/elementos/earth.png',
+};
+
 function TechniqueRow({ technique }) {
   const nameColor = ELEMENT_COLOR[technique.element] ?? '#a855f7';
   const typeBg    = TYPE_COLOR[technique.type]       ?? '#444';
   const typeLabel = TYPE_LABEL[technique.type]       ?? '—';
+  const elementImg = ELEMENT_IMAGE[technique.element] ?? null;
 
   return (
     <tr className="technique-table-row">
@@ -57,6 +65,13 @@ function TechniqueRow({ technique }) {
       </td>
       <td>
         <div className="technique-table-name-cell">
+          {elementImg && (
+            <img
+              src={getImageUrl(elementImg)}
+              alt={technique.element}
+              className="technique-element-icon"
+            />
+          )}
           <span className="technique-table-name" style={{ color: nameColor }}>
             {technique.name}
           </span>
@@ -66,11 +81,6 @@ function TechniqueRow({ technique }) {
             </span>
           )}
         </div>
-        {technique.element && (
-          <span className="technique-table-element" style={{ color: nameColor }}>
-            {technique.element}
-          </span>
-        )}
       </td>
       <td className="technique-table-center">{technique.base_power ?? '—'}</td>
       <td className="technique-table-center">{technique.pt_cost}</td>

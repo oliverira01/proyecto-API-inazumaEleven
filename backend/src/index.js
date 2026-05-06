@@ -10,6 +10,7 @@ import itemsRouter from './routes/itemsRoutes.js';
 import matchChainsRouter from './routes/matchChainsRoutes.js';
 import trainingsRouter from './routes/trainingsRoutes.js';
 import inazudleRouter from './routes/inazudleRoutes.js';
+import techniqueGameRouter from './routes/techniqueGameRoutes.js';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use('/api/match-chains', matchChainsRouter);
 app.use('/api/trainings', trainingsRouter);
 
 app.use('/api/inazudle', inazudleRouter);
+app.use('/api/technique-game', techniqueGameRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

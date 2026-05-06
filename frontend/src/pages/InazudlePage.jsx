@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { getDailyChallenge, submitGuess, searchPlayers } from '../api/inazudleApi';
 import { getImageUrl } from '../hooks/imageUrl';
 
 const ATTRS = [
-  { key: 'game',     label: 'Juego' },
+  { key: 'game', label: 'Juego' },
   { key: 'position', label: 'Posición' },
-  { key: 'element',  label: 'Elemento' },
-  { key: 'team',     label: 'Equipo' },
-  { key: 'sex',      label: 'Género' },
+  { key: 'element', label: 'Elemento' },
+  { key: 'team', label: 'Equipo' },
+  { key: 'sex', label: 'Género' },
 ];
 
 const TODAY = new Date().toISOString().split('T')[0];
@@ -27,14 +27,17 @@ const savedDay = loadDayState();
 
 function Confetti() {
   const colors = ['#f59e0b','#22c55e','#3b82f6','#a855f7','#dc2626','#ec4899'];
-  const pieces = Array.from({ length: 80 }, (_, i) => ({
-    id: i,
-    color: colors[i % colors.length],
-    left: Math.random() * 100,
-    delay: Math.random() * 2,
-    duration: 2 + Math.random() * 2,
-    size: 6 + Math.random() * 8,
-  }));
+  
+  const pieces = useMemo(() => 
+    Array.from({ length: 80 }, (_, i) => ({
+      id: i,
+      color: colors[i % colors.length],
+      left: Math.random() * 100,
+      delay: Math.random() * 2,
+      duration: 2 + Math.random() * 2,
+      size: 6 + Math.random() * 8,
+    }))
+  , []);
 
   return (
     <div className="confetti-container">
@@ -43,11 +46,11 @@ function Confetti() {
           key={p.id}
           className="confetti-piece"
           style={{
-            left:            `${p.left}%`,
-            background:      p.color,
-            width:           `${p.size}px`,
-            height:          `${p.size}px`,
-            animationDelay:  `${p.delay}s`,
+            left: `${p.left}%`,
+            background: p.color,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            animationDelay: `${p.delay}s`,
             animationDuration:`${p.duration}s`,
           }}
         />
@@ -75,8 +78,6 @@ function Scoreboard({ wins, losses, timeLeft }) {
       <div className="scoreboard-side">
         <span className="scoreboard-label">Días fallados</span>
         <span className="scoreboard-number wins">{losses}</span>
-
-        
       </div>
     </div>
   );
@@ -111,19 +112,19 @@ function GuessRow({ guess }) {
 }
 
 function InazudlePage() {
-  const [entryId, setEntryId]       = useState(null);
-  const [search, setSearch]         = useState('');
+  const [entryId, setEntryId] = useState(null);
+  const [search, setSearch] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-const [guesses, setGuesses] = useState(savedDay?.guesses ?? []);
-const [won, setWon]         = useState(savedDay?.won ?? false);
-  const [loading, setLoading]       = useState(false);
-  const [wins, setWins]             = useState(
+  const [guesses, setGuesses] = useState(savedDay?.guesses ?? []);
+  const [won, setWon] = useState(savedDay?.won ?? false);
+  const [loading, setLoading] = useState(false);
+  const [wins, setWins] = useState(
     parseInt(localStorage.getItem('inazudle_wins') ?? '0')
   );
-  const [losses, setLosses]         = useState(
+  const [losses, setLosses] = useState(
     parseInt(localStorage.getItem('inazudle_losses') ?? '0')
   );
-  const [timeLeft, setTimeLeft]     = useState(0);
+  const [timeLeft, setTimeLeft] = useState(0);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef(null);
 

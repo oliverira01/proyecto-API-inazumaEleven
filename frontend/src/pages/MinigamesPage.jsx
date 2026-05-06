@@ -24,8 +24,7 @@ const MINIGAMES = [
     title: 'Adivina la técnica',
     desc:  'Identifica la supertécnica por su imagen. La calidad sube con cada fallo.',
     route: '/minijuegos/imagen',
-    color: '#3b82f6',
-    soon:  true,
+    color: '#3b82f6'
   },
   {
     id:    'sonido',

@@ -4,7 +4,7 @@ export const getDailyPlayer = async () => {
   const today = new Date().toISOString().split('T')[0];
 
   const [existing] = await pool.query(
-    'SELECT player_id FROM daily_challenges WHERE date = ?',
+    'SELECT player_id FROM daily_challenges WHERE date = ? AND player_id IS NOT NULL',
     [today]
   );
 
@@ -17,10 +17,23 @@ export const getDailyPlayer = async () => {
 
   const randomPlayer = players[Math.floor(Math.random() * players.length)];
 
-  await pool.query(
-    'INSERT INTO daily_challenges (date, player_id) VALUES (?, ?)',
-    [today, randomPlayer.id]
+  // Comprueba si ya existe una fila para hoy (con technique_id pero sin player_id)
+  const [todayRow] = await pool.query(
+    'SELECT id FROM daily_challenges WHERE date = ?',
+    [today]
   );
+
+  if (todayRow.length > 0) {
+    await pool.query(
+      'UPDATE daily_challenges SET player_id = ? WHERE date = ?',
+      [randomPlayer.id, today]
+    );
+  } else {
+    await pool.query(
+      'INSERT INTO daily_challenges (date, player_id) VALUES (?, ?)',
+      [today, randomPlayer.id]
+    );
+  }
 
   return getPlayerForInazudle(randomPlayer.id);
 };

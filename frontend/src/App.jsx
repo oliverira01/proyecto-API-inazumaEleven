@@ -10,6 +10,7 @@ import TrainingsPage from './pages/TrainingsPage';
 import MapCoordinatePicker from './pages/MapCoordinatePicker';
 import MinigamesPage from './pages/MinigamesPage';
 import InazudlePage from './pages/InazudlePage';
+import TechniqueGamePage from './pages/TechniqueGamePage';
 import './App.css';
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
         <Route path="/minijuegos" element={<MinigamesPage />} />
         <Route path="/minijuegos/inazudle" element={<InazudlePage />} />
         <Route path="/minijuegos/frontier" element={<div className="status-msg">Fútbol Frontier — próximamente</div>} />
-        <Route path="/minijuegos/imagen" element={<div className="status-msg">Adivina la técnica — próximamente</div>} />
+        <Route path="/minijuegos/imagen" element={<TechniqueGamePage />} />
         <Route path="/minijuegos/sonido" element={<div className="status-msg">Adivina el sonido — próximamente</div>} />
         <Route path="/map-picker" element={<MapCoordinatePicker />} />
       </Routes>

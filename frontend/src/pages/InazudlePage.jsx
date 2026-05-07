@@ -86,7 +86,7 @@ function Scoreboard({ wins, losses, timeLeft }) {
 function GuessRow({ guess }) {
   return (
     <div className="guess-row">
-      <div className="guess-player-info">
+      <div className={`guess-player-info ${guess.isCorrect ? 'hit' : 'miss'}`}>
         {guess.guessed.image_url ? (
           <img src={getImageUrl(guess.guessed.image_url)} alt={guess.guessed.name} className="guess-avatar" />
         ) : (

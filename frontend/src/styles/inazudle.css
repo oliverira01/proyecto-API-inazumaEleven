@@ -328,6 +328,23 @@
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
 }
 
+.guess-player-info {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+}
+
+.guess-player-info.hit  { background: #14532d; border-color: #22c55e44; }
+.guess-player-info.miss { background: #2d0a0a; border-color: #dc262644; }
+
+
+
+
 
 
 .technique-game-container {

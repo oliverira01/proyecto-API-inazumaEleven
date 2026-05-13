@@ -1,17 +1,18 @@
 import pool from '../config/db.js';
 
-export const findAllMatchChains = async ({ game, name } = {}) => {
+export const findAllMatchChains = async ({ game, name, gameVersion } = {}) => {
   let query = `
     SELECT
-      mc.id, mc.name, mc.game, mc.image_url, mc.description,
+      mc.id, mc.name, mc.game, mc.game_version, mc.image_url, mc.description,
       mc.unlock_condition, mc.reward_image_url, mc.reward_text
     FROM match_chains mc
     WHERE 1=1
   `;
   const params = [];
 
-  if (game) { query += ' AND mc.game = ?';      params.push(game); }
-  if (name) { query += ' AND mc.name LIKE ?';   params.push(`%${name}%`); }
+  if (game)        { query += ' AND mc.game = ?';         params.push(game); }
+  if (name)        { query += ' AND mc.name LIKE ?';      params.push(`%${name}%`); }
+  if (gameVersion) { query += ' AND mc.game_version = ?'; params.push(gameVersion); }
 
   query += ' ORDER BY mc.name';
 

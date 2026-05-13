@@ -7,8 +7,8 @@ import {
 
 export const getMatchChains = async (req, res) => {
   try {
-    const { game, name } = req.query;
-    const chains = await findAllMatchChains({ game, name });
+    const { game, name, gameVersion } = req.query;
+    const chains = await findAllMatchChains({ game, name, gameVersion });
     res.json(chains);
   } catch (err) {
     console.error(err);

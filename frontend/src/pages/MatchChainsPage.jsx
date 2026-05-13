@@ -3,23 +3,40 @@ import { getMatchChains } from '../api/matchChainsApi';
 import MatchChainCard from '../components/MatchChainCard';
 import MatchChainModal from '../components/MatchChainModal';
 
+const VERSIONS_BY_GAME = {
+  IE2: [
+    { value: 'TF', label: 'Tormenta de Fuego' },
+    { value: 'VE', label: 'Ventisca Eterna' },
+  ],
+  IE3: [
+    { value: 'FE', label: 'Fuego Explosivo' },
+    { value: 'RC', label: 'Rayo Celeste' },
+    { value: 'AO', label: 'Amenaza del Ogro' },
+  ],
+};
+
 function MatchChainsPage() {
-  const [chains, setChains]         = useState([]);
-  const [loading, setLoading]       = useState(true);
-  const [error, setError]           = useState(null);
-  const [game, setGame]             = useState('IE1');
-  const [search, setSearch]         = useState('');
+  const [chains, setChains]             = useState([]);
+  const [loading, setLoading]           = useState(true);
+  const [error, setError]               = useState(null);
+  const [game, setGame]                 = useState('IE1');
+  const [search, setSearch]             = useState('');
+  const [gameVersion, setGameVersion]   = useState('');
   const [selectedChain, setSelectedChain] = useState(null);
 
   useEffect(() => {
     fetchChains();
-  }, [game, search]);
+  }, [game, search, gameVersion]);
 
   const fetchChains = async () => {
     try {
       setLoading(true);
       setError(null);
-      const { data } = await getMatchChains({ game, name: search });
+      const { data } = await getMatchChains({
+        game,
+        name: search,
+        gameVersion: gameVersion || undefined,
+      });
       setChains(Array.isArray(data) ? data : []);
     } catch (err) {
       setError('Error al cargar las cadenas de partidos');
@@ -27,6 +44,14 @@ function MatchChainsPage() {
       setLoading(false);
     }
   };
+
+  const handleGameChange = (g) => {
+    setGame(g);
+    const versions = VERSIONS_BY_GAME[g];
+    setGameVersion(versions ? versions[0].value : '');
+  };
+
+  const versions = VERSIONS_BY_GAME[game];
 
   return (
     <div className="home-page">
@@ -37,12 +62,26 @@ function MatchChainsPage() {
             <button
               key={g}
               className={game === g ? 'active' : ''}
-              onClick={() => setGame(g)}
+              onClick={() => handleGameChange(g)}
             >
               {g}
             </button>
           ))}
         </div>
+
+        {versions && (
+          <div className="ie3-version-tabs">
+            {versions.map(v => (
+              <button
+                key={v.value}
+                className={gameVersion === v.value ? 'active' : ''}
+                onClick={() => setGameVersion(v.value)}
+              >
+                {v.label}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="search-bar-container">
           <input

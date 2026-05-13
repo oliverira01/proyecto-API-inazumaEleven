@@ -7,6 +7,7 @@ import TechniquesPage from './pages/TechniquesPage';
 import ItemsPage from './pages/ItemsPage';
 import MatchChainsPage from './pages/MatchChainsPage';
 import TrainingsPage from './pages/TrainingsPage';
+import TournamentsPage from './pages/TournamentsPage';
 import MapCoordinatePicker from './pages/MapCoordinatePicker';
 import MinigamesPage from './pages/MinigamesPage';
 import InazudlePage from './pages/InazudlePage';
@@ -26,7 +27,7 @@ function App() {
         <Route path="/cadenas" element={<MatchChainsPage />} />
         <Route path="/entrenamientos" element={<TrainingsPage />} />
         <Route path="/tiendas" element={<div className="status-msg">Próximamente</div>} />
-        <Route path="/torneos" element={<div className="status-msg">Próximamente</div>} />
+        <Route path="/torneos" element={<TournamentsPage />} />
         <Route path="/minijuegos" element={<MinigamesPage />} />
         <Route path="/minijuegos/inazudle" element={<InazudlePage />} />
         <Route path="/minijuegos/frontier" element={<div className="status-msg">Fútbol Frontier — próximamente</div>} />

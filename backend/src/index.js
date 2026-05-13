@@ -9,6 +9,7 @@ import techniquesRouter from './routes/techniquesRoutes.js';
 import itemsRouter from './routes/itemsRoutes.js';
 import matchChainsRouter from './routes/matchChainsRoutes.js';
 import trainingsRouter from './routes/trainingsRoutes.js';
+import tournamentsRouter from './routes/tournamentsRoutes.js';
 import inazudleRouter from './routes/inazudleRoutes.js';
 import techniqueGameRouter from './routes/techniqueGameRoutes.js';
 
@@ -33,6 +34,7 @@ app.use('/api/techniques', techniquesRouter);
 app.use('/api/items', itemsRouter);
 app.use('/api/match-chains', matchChainsRouter);
 app.use('/api/trainings', trainingsRouter);
+app.use('/api/tournaments', tournamentsRouter);
 
 app.use('/api/inazudle', inazudleRouter);
 app.use('/api/technique-game', techniqueGameRouter);
